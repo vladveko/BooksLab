@@ -10,13 +10,13 @@ namespace BooksLab
     {
         int IComparer<Book>.Compare(Book x, Book y)
         {
-            if (x.PublishYear > y.PublishYear)
+            if (x.PublishYear < y.PublishYear)
             {
                 return 1;
             }
             else
             {
-                if (x.PublishYear < y.PublishYear)
+                if (x.PublishYear > y.PublishYear)
                 {
                     return -1;
                 }

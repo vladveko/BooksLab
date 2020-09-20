@@ -49,8 +49,8 @@ namespace BooksLab
                 string author = AuthorTB.Text;
                 string title = TitleTB.Text;
                 string publisher = PublisherTB.Text;
-                int year = Convert.ToInt32(YearTB.Text);
-                double price = Convert.ToDouble(PriceTB.Text);
+                int year = int.Parse(YearTB.Text);
+                double price = double.Parse(PriceTB.Text);
 
                 Book newBook = new Book(isbn, author, title, publisher, year, price);
                 CurrentBookList.AddBook(newBook);
@@ -66,9 +66,13 @@ namespace BooksLab
 
                 MessageBox.Show("New book has been added.");
             }
-            catch (Exception exp)
+            catch (ArgumentException ex)
             {
-                MessageBox.Show(exp.Message);
+                MessageBox.Show(ex.ParamName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -115,27 +119,6 @@ namespace BooksLab
             ComparerProvider provider = new ComparerProvider();
             IComparer<Book> comparer = provider.GetComparer(e.Column);
             CurrentBookList.Sort(comparer);
-            //switch (e.Column)
-            //{
-            //    case 0:
-            //        CurrentBookList.Sort(BookList.SortByISBN());
-            //        break;
-            //    case 1:
-            //        CurrentBookList.Sort(BookList.SortByTitle());
-            //        break;
-            //    case 2:
-            //        CurrentBookList.Sort(BookList.SortByAuthor());
-            //        break;
-            //    case 3:
-            //        CurrentBookList.Sort(BookList.SortByYear());
-            //        break;
-            //    case 4:
-            //        CurrentBookList.Sort(BookList.SortByPublisher());
-            //        break;
-            //    case 5:
-            //        CurrentBookList.Sort(BookList.SortByPrice());
-            //        break;
-            //}
 
             TableUpdate(CurrentBookList.Books, Table);
         }

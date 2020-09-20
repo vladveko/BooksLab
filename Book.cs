@@ -38,7 +38,7 @@ namespace BooksLab
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new Exception("Incorrect input. Author string cannot be empty or null.");
+                    throw new ArgumentNullException("Incorrect input. Author string cannot be empty or null.");
                 }
 
                 this.author = value;
@@ -51,7 +51,7 @@ namespace BooksLab
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new Exception("Incorrect input. Publisher string cannot be empty or null.");
+                    throw new ArgumentNullException("Incorrect input. Publisher string cannot be empty or null.");
                 }
 
                 this.publisher = value;
@@ -64,7 +64,7 @@ namespace BooksLab
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new Exception("Incorrect input. Title string cannot be empty or null.");
+                    throw new ArgumentNullException("Incorrect input. Title string cannot be empty or null.");
                 }
                 this.title = value;
             }
