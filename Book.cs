@@ -21,15 +21,12 @@ namespace BooksLab
             get { return this.uniqueIsbn; }
             private set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new Exception("Incorrect ISBN.");
-                }
+                var regex = new Regex(@"^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$");
 
-                //if (true)
-                //{
-                //    throw new Exception("Incorrect input.");
-                //}
+                if (string.IsNullOrEmpty(value) || !regex.IsMatch(value))
+                {
+                    throw new ArgumentNullException("Invalid ISBN.");
+                }
 
                 this.uniqueIsbn = value;
             }
@@ -41,7 +38,7 @@ namespace BooksLab
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new Exception("Incorrect input. Author.");
+                    throw new Exception("Incorrect input. Author string cannot be empty or null.");
                 }
 
                 this.author = value;
@@ -54,7 +51,7 @@ namespace BooksLab
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new Exception("Incorrect input.Publisher");
+                    throw new Exception("Incorrect input. Publisher string cannot be empty or null.");
                 }
 
                 this.publisher = value;
@@ -67,7 +64,7 @@ namespace BooksLab
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new Exception("Incorrect input.Title.");
+                    throw new Exception("Incorrect input. Title string cannot be empty or null.");
                 }
                 this.title = value;
             }
@@ -77,9 +74,9 @@ namespace BooksLab
             get { return this.pYear; }
             set
             {
-                if (value < 0)
+                if (value < 1 || value > DateTime.Today.Year)
                 {
-                    throw new Exception("Incorrect input.Year.");
+                    throw new ArgumentOutOfRangeException("Incorrect input. Publishing year cannot be less than zero or more than current year.");
                 }
 
                 this.pYear = value;
@@ -88,7 +85,14 @@ namespace BooksLab
         public double Price
         {
             get { return this.price; }
-            set { this.price = value; }
+            set
+            {
+                if (value < 0.00001)
+                {
+                    throw new ArgumentOutOfRangeException("Incorrect input. Price cannot be less than zero or equal to zero.");
+                }
+                this.price = value;
+            }
         }
 
         public Book(string BookISBN, string BookAuthor, string BookTitle, string BookPublisher,  int Year, double BookPrice)

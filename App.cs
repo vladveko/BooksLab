@@ -112,27 +112,30 @@ namespace BooksLab
 
         private void Table_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            switch (e.Column)
-            {
-                case 0:
-                    CurrentBookList.Sort(BookList.SortByISBN());
-                    break;
-                case 1:
-                    CurrentBookList.Sort(BookList.SortByTitle());
-                    break;
-                case 2:
-                    CurrentBookList.Sort(BookList.SortByAuthor());
-                    break;
-                case 3:
-                    CurrentBookList.Sort(BookList.SortByYear());
-                    break;
-                case 4:
-                    CurrentBookList.Sort(BookList.SortByPublisher());
-                    break;
-                case 5:
-                    CurrentBookList.Sort(BookList.SortByPrice());
-                    break;
-            }
+            ComparerProvider provider = new ComparerProvider();
+            IComparer<Book> comparer = provider.GetComparer(e.Column);
+            CurrentBookList.Sort(comparer);
+            //switch (e.Column)
+            //{
+            //    case 0:
+            //        CurrentBookList.Sort(BookList.SortByISBN());
+            //        break;
+            //    case 1:
+            //        CurrentBookList.Sort(BookList.SortByTitle());
+            //        break;
+            //    case 2:
+            //        CurrentBookList.Sort(BookList.SortByAuthor());
+            //        break;
+            //    case 3:
+            //        CurrentBookList.Sort(BookList.SortByYear());
+            //        break;
+            //    case 4:
+            //        CurrentBookList.Sort(BookList.SortByPublisher());
+            //        break;
+            //    case 5:
+            //        CurrentBookList.Sort(BookList.SortByPrice());
+            //        break;
+            //}
 
             TableUpdate(CurrentBookList.Books, Table);
         }
