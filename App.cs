@@ -31,7 +31,7 @@ namespace BooksLab
             foreach (Book book in list)
             {
                 var lvItem = new ListViewItem(
-                    new string[] { book.ISBN, book.Title, book.Author, book.PublishYear.ToString(), book.Publisher, book.Price.ToString() });
+                    new string[] { book.ISBN, book.Title, book.Author, book.PublishYear.ToString(), book.Publisher, book.Price });
                 listView.Items.Add(lvItem);
             }
         }
@@ -50,12 +50,19 @@ namespace BooksLab
                 string title = TitleTB.Text;
                 string publisher = PublisherTB.Text;
                 int year = int.Parse(YearTB.Text);
-                double price = double.Parse(PriceTB.Text);
+                string price = PriceTB.Text;
 
                 Book newBook = new Book(isbn, author, title, publisher, year, price);
+                foreach (Book book in CurrentBookList.Books)
+                {
+                    if (newBook.ISBN == book.ISBN && !newBook.Equals(book))
+                        throw new FormatException("ISBN must be unique.");
+                }
+
                 CurrentBookList.AddBook(newBook);
 
-                TableUpdate(CurrentBookList.Books, Table);
+                if (CurrentBookList != null)
+                    TableUpdate(CurrentBookList.Books, Table);
 
                 IsbnTB.Clear();
                 AuthorTB.Clear();
@@ -69,6 +76,10 @@ namespace BooksLab
             catch (ArgumentException ex)
             {
                 MessageBox.Show(ex.ParamName);
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
             catch (Exception ex)
             {
@@ -91,9 +102,11 @@ namespace BooksLab
                 MessageBox.Show(exp.Message);
             }
 
-            TableUpdate(CurrentBookList.Books, Table);
-
-            MessageBox.Show("File has been uploaded.");
+            if (CurrentBookList != null)
+            {
+                TableUpdate(CurrentBookList.Books, Table);
+                MessageBox.Show("File has been uploaded.");
+            }
         }
 
         private void SaveBtn_Click(object sender, EventArgs e)

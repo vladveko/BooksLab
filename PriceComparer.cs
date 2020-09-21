@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace BooksLab
 {
@@ -10,21 +11,14 @@ namespace BooksLab
     {
         int IComparer<Book>.Compare(Book x, Book y)
         {
-            if (x.Price > y.Price)
-            {
-                return 1;
-            }
-            else
-            {
-                if (x.Price < y.Price)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
+            double first, second;
+            NumberStyles style = NumberStyles.Number | NumberStyles.AllowCurrencySymbol;
+            CultureInfo culture = CultureInfo.CurrentCulture;
+
+            double.TryParse(x.Price, style, culture, out first);
+            double.TryParse(y.Price, style, culture, out second);
+
+            return (first > second) ? 1 : -1;
         }
     }
 }

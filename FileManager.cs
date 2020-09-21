@@ -64,7 +64,7 @@ namespace BooksLab
             string title = reader.ReadString();
             string publisher = reader.ReadString();
             int year = reader.ReadInt32();
-            double price = reader.ReadDouble();
+            string price = reader.ReadString();
 
             return new Book(isbn, author, title, publisher, year, price);
         }

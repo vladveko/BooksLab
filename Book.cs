@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace BooksLab
 {
@@ -82,20 +83,31 @@ namespace BooksLab
                 this.pYear = value;
             }
         }
-        public double Price
+        public string Price
         {
-            get { return this.price; }
+            get { return this.price.ToString("C", CultureInfo.CurrentCulture); ; }
             set
             {
-                if (value < 0.00001)
+                double temp;
+                NumberStyles style = NumberStyles.Number | NumberStyles.AllowCurrencySymbol;
+                CultureInfo culture = CultureInfo.CurrentCulture;
+                if (double.TryParse(value, style, culture, out temp))
                 {
-                    throw new ArgumentOutOfRangeException("Incorrect input. Price cannot be less than zero or equal to zero.");
+
+                    if (temp < 0.00001)
+                    {
+                        throw new ArgumentOutOfRangeException("Incorrect input. Price cannot be less than zero or equal to zero.");
+                    }
+                    this.price = temp;
                 }
-                this.price = value;
+                else
+                {
+                    throw new FormatException("Wrong price format.");
+                }
             }
         }
 
-        public Book(string BookISBN, string BookAuthor, string BookTitle, string BookPublisher,  int Year, double BookPrice)
+        public Book(string BookISBN, string BookAuthor, string BookTitle, string BookPublisher,  int Year, string BookPrice)
         {
             ISBN = BookISBN;
             Author = BookAuthor;
@@ -126,14 +138,12 @@ namespace BooksLab
             if (other == null)
                 return false;
 
-            double delta = 0.001;
-
             return (this.uniqueIsbn == other.uniqueIsbn && 
                 this.Title == other.Title && 
                 this.Author == this.Author && 
                 this.Publisher == other.Publisher &&
                 this.PublishYear == other.PublishYear &&
-                this.Price < (other.Price + delta) && this.Price > (other.Price - delta));
+                this.Price == other.Price);
         }
 
         public override bool Equals(object obj)
