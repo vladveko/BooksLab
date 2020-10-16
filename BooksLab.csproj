@@ -63,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublisherComparer.cs" />
     <Compile Include="PublishYearComparer.cs" />
+    <Compile Include="TaskQueue.cs" />
     <Compile Include="TitleComparer.cs" />
     <EmbeddedResource Include="App.resx">
       <DependentUpon>App.cs</DependentUpon>
